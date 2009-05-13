@@ -13,12 +13,9 @@ requirements. Yadda yadda yadda. So rather than supply something that
 nobody will use, we decided not to supply anything at all. Here is an
 example deploy that I stole from the web (and improved) that you may like:
 
-    desc "Full deployment cycle: Update, migrate, restart, cleanup"
-    remote_task "vlad:deploy", :roles => :app do
-      tasks = %W(update symlink_config migrate start_app cleanup)
-      tasks.each do |task|
-        Rake::Task["vlad:#{task}"].invoke
-      end
+    namespace :vlad do
+      desc "Full deployment cycle: Update, migrate, restart, cleanup"
+      task :deploy => %W(update symlink_config migrate start_app cleanup)
     end
 
 Just pop that in your config/deploy.rb and have at it.
