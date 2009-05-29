@@ -49,8 +49,12 @@ namespace :vlad do
     up your symlinks, symlinks the latest revision to current and logs
     the update.".cleanup
 
-  remote_task :update, :roles => :app do
-    symlink = false
+  task :update => [:update_code, :update_symlinks, :symlink]
+
+  desc "Syncs a copy of the repository, exports it as the latest
+    release".cleanup
+
+  remote_task :update_code, :roles => :app do
     begin
       run [ "cd #{scm_path}",
             "#{source.checkout revision, scm_path}",
@@ -59,15 +63,7 @@ namespace :vlad do
             "rm -rf #{latest_release}/log #{latest_release}/public/system #{latest_release}/tmp/pids",
             "mkdir -p #{latest_release}/db #{latest_release}/tmp"
           ].join(" && ")
-      Rake::Task['vlad:update_symlinks'].invoke
-
-      symlink = true
-      run "rm -f #{current_path} && ln -s #{latest_release} #{current_path}"
-
-      run "echo #{now} $USER #{revision} #{File.basename release_path} >> #{deploy_to}/revisions.log"
     rescue => e
-      run "rm -f #{current_path} && ln -s #{previous_release} #{current_path}" if
-        symlink
       run "rm -rf #{release_path}"
       raise e
     end
@@ -79,6 +75,20 @@ namespace :vlad do
     run [ "ln -s #{shared_path}/log #{latest_release}/log",
           "ln -s #{shared_path}/system #{latest_release}/public/system",
           "ln -s #{shared_path}/pids #{latest_release}/tmp/pids" ].join(" && ")
+  end
+
+  desc "Symlinks the latest revision to current and logs the update".cleanup
+
+  remote_task :symlink, :roles => :app do
+    begin
+      run "rm -f #{current_path} && ln -s #{latest_release} #{current_path}"
+
+      run "echo #{now} $USER #{revision} #{File.basename release_path} >> #{deploy_to}/revisions.log"
+    rescue => e
+      run "rm -f #{current_path} && ln -s #{previous_release} #{current_path}"
+      run "rm -rf #{release_path}"
+      raise e
+    end
   end
 
   desc "Run the migrate rake task for the the app. By default this is run in
