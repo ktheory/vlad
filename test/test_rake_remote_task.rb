@@ -117,6 +117,22 @@ class TestRakeRemoteTask < VladTestCase
     assert_equal 1, @task.commands.size
   end
 
+  def test_run_with_prefix_output
+    util_setup_task
+    @task.output << "file1\nfile2\n"
+    @task.target_host = "app.example.com"
+    result = nil
+
+    set :prefix_output, true
+
+    out, err = util_capture do
+      result = @task.run("ls")
+    end
+
+    assert_equal "app.example.com: file1\napp.example.com: file2\n", result
+    assert_equal "app.example.com: file1\napp.example.com: file2\n", out.read
+  end
+
   def test_run_sudo
     util_setup_task
     @task.output << "file1\nfile2\n"

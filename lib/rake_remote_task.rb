@@ -223,6 +223,16 @@ class Rake::RemoteTask < Rake::Task
         end
 
         data = stream.readpartial(1024)
+
+        # Add the prefix to each line
+        if (prefix = prefix_output)
+          # default to the target hostname
+          prefix = "#{target_host}: " if prefix == true
+
+          # don't prefix sudo prompts
+          data.gsub!(/^/, prefix) unless stream == err and data =~ sudo_prompt
+        end
+
         out_stream[stream].write data
 
         if stream == err and data =~ sudo_prompt then
@@ -455,7 +465,8 @@ class Rake::RemoteTask < Rake::Task
                :sudo_cmd,           "sudo",
                :sudo_flags,         ['-p Password:'],
                :sudo_prompt,        /^Password:/,
-               :umask,              '02')
+               :umask,              '02',
+               :prefix_output,      false)
 
     set(:current_release)    { File.join(releases_path, releases[-1]) }
     set(:latest_release)     { deploy_timestamped ?release_path: current_release }
