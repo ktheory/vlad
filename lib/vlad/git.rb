@@ -10,13 +10,11 @@ class Vlad::Git
 
   def checkout(revision, destination)
     destination = File.join(destination, 'repo')
-    revision = 'HEAD' if revision =~ /head/i
+    revision = 'origin/HEAD' if revision =~ /head/i
 
-    [ "rm -rf #{destination}",
-      "#{git_cmd} clone #{repository} #{destination}",
+    [ "if [ -d #{destination}/.git ]; then cd #{destination} && git fetch ; else git clone #{repository} #{destination}; fi",
       "cd #{destination}",
-      "#{git_cmd} checkout -f -b deployed-#{revision} #{revision}",
-      "cd -"
+      "git reset --hard #{revision}"
     ].join(" && ")
   end
 
@@ -26,14 +24,10 @@ class Vlad::Git
   # Expects to be run from +scm_path+ after Vlad::Git#checkout
 
   def export(revision, destination)
-    revision = 'HEAD' if revision =~ /head/i
-    revision = "deployed-#{revision}"
+    revision = 'origin/HEAD' if revision =~ /head/i
 
     [ "mkdir -p #{destination}",
-      "cd repo",
-      "#{git_cmd} archive --format=tar #{revision} | (cd #{destination} && tar xf -)",
-      "cd -",
-      "cd .."
+      "#{git_cmd} archive --format=tar #{revision}| (cd #{destination} && tar xf -)",
     ].join(" && ")
   end
 
