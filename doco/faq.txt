@@ -13,12 +13,16 @@ requirements. Yadda yadda yadda. So rather than supply something that
 nobody will use, we decided not to supply anything at all. Here is an
 example deploy that I stole from the web (and improved) that you may like:
 
-    namespace :vlad do
-      desc "Full deployment cycle: Update, migrate, restart, cleanup"
-      task :deploy => %W(update symlink_config migrate start_app cleanup)
-    end
+    desc "Full deployment cycle"
+    task "vlad:deploy" => %w[
+      vlad:update
+      vlad:migrate
+      vlad:reset_session
+      vlad:start
+      vlad:cleanup
+    ]
 
-Just pop that in your config/deploy.rb and have at it.
+Just pop that in your config/deploy.rb, tweak it as necessary, and have at it.
 
 === Q: Why are there no before_action and after_action hooks?
 === A: Because we use rake!
