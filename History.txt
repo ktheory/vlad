@@ -1,3 +1,39 @@
+=== 2.0.0 / 2009-08-18
+
+* 1 major enhancement:
+
+  * Removed all extra modules that we don't support in core anymore.
+
+* 2 minor enhancements:
+
+  * Added test to show that false is a valid variable value.
+  * Moved vlad_test_case from test to lib to support 3rd party vlad modules.
+
+=== 1.4.0 / 2009-06-23
+
+* 1 major enhancement:
+
+  * Switched to passenger as default app server.
+
+* 11 minor enhancements:
+
+  * #rsync now takes ANY number of arguments and expects to you add "host:".
+  * Added Rake::RemoteTask#get.
+  * Added doco for why we don't ship a deploy task
+  * Added links to example maintenance recipes
+  * Added multi-env doco to getting_started.txt
+  * Added svn-over-ssh faq item. gah.
+  * Flipped tests to minitest
+  * Merged global #role and Rake::RemoteTask::role.
+  * Moved all global methods to Rake::RemoteTask and wrote #external to clean up.
+  * Moved rake extensions to hoe so everyone can enjoy the fun.
+  * put names the tempfile based on the remote path to ease debugging
+
+* 2 bug fixes:
+
+  * passenger:start_app wasn't using the latest_release path
+  * set/fetch wasn't dealing with a default of false well. (Seth Falcon)
+
 === 1.3.2 / 2009-03-16
 
 * 3 minor enhancements:

@@ -2,20 +2,21 @@
 
 require 'rubygems'
 require 'hoe'
-$: << 'lib'
-require 'vlad'
 
-Hoe.new('vlad', Vlad::VERSION) do |vlad|
-  vlad.rubyforge_name = 'hitsquad'
+Hoe.plugin :seattlerb
 
-  vlad.developer('Ryan Davis', 'ryand-ruby@zenspider.com')
-  vlad.developer('Eric Hodel', 'drbrain@segment7.net')
-  vlad.developer('Wilson Bilkovich', 'wilson@supremetyrant.com')
+Hoe.spec 'vlad' do
+  self.rubyforge_name = 'hitsquad'
 
-  vlad.extra_deps << ['rake', '>= 0.8.1']
-  vlad.extra_deps << 'open4'
+  developer 'Ryan Davis',       'ryand-ruby@zenspider.com'
+  developer 'Eric Hodel',       'drbrain@segment7.net'
+  developer 'Wilson Bilkovich', 'wilson@supremetyrant.com'
 
-  vlad.multiruby_skip << "1.9" << "rubinius"
+  extra_deps << ['rake',  '~> 0.8.0']
+  extra_deps << ['open4', '~> 0.9.0']
+
+  # TODO: remove 1.9
+  multiruby_skip << "1.9" << "rubinius"
 end
 
 desc "quick little hack to see what the state of the nation looks like"
@@ -26,14 +27,6 @@ task :debug do
   set :domain,     "server domain"
 
   Rake::Task['vlad:debug'].invoke
-end
-
-task :flog do
-  sh 'flog -s lib'
-end
-
-task :flog_full do
-  sh 'flog -a lib'
 end
 
 task :mana_from_heaven do
@@ -49,4 +42,4 @@ task :mana_from_heaven do
   puts "%14.8f = %s" % [target - vlad, "needed delta"]
 end
 
-# vim: syntax=Ruby
+# vim: syntax=ruby
