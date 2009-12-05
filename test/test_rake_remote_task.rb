@@ -216,12 +216,14 @@ class TestRakeRemoteTask < VladTestCase
 
     set :prefix_output, true
 
-    out, err = util_capture do
+    out, err = capture_io do
       result = @task.run("ls")
     end
 
     assert_equal "app.example.com: file1\napp.example.com: file2\n", result
-    assert_equal "app.example.com: file1\napp.example.com: file2\n", out.read
+    assert_equal "app.example.com: file1\napp.example.com: file2\n", out
+    # Reset to false
+    set :prefix_output, false
   end
 
   def test_run_sudo

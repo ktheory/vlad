@@ -177,9 +177,9 @@ class Rake::RemoteTask < Rake::Task
         data = stream.readpartial(1024)
 
         # Add the prefix to each line
-        if (prefix = prefix_output)
-          # default to the target hostname
-          prefix = "#{target_host}: " if prefix == true
+        if (prefix_output)
+          # prefix target hostname unless prefix_output is a custom string
+          prefix = String === prefix_output ? prefix_output : "#{target_host}: "
 
           # don't prefix sudo prompts
           data.gsub!(/^/, prefix) unless stream == err and data =~ sudo_prompt
