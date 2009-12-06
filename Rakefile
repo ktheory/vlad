@@ -1,22 +1,35 @@
 # -*- ruby -*-
 
 require 'rubygems'
-require 'hoe'
+require 'rake/testtask'
+Rake::TestTask.new do |t|
+  t.libs << "test"
+  t.test_files = FileList['test/test*.rb']
+  t.verbose = true
+end
+task :default => :test
 
-Hoe.plugin :seattlerb
-
-Hoe.spec 'vlad' do
-  self.rubyforge_name = 'hitsquad'
-
-  developer 'Ryan Davis',       'ryand-ruby@zenspider.com'
-  developer 'Eric Hodel',       'drbrain@segment7.net'
-  developer 'Wilson Bilkovich', 'wilson@supremetyrant.com'
-
-  extra_deps << ['rake',  '~> 0.8.0']
-  extra_deps << ['open4', '~> 0.9.0']
-
-  # TODO: remove 1.9
-  multiruby_skip << "1.9" << "rubinius"
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name = "ktheory-vlad"
+    gemspec.summary = "Vlad the Deployer is pragmatic application deployment automation, without mercy [ktheory's fork]"
+    gemspec.description = %Q{
+Vlad the Deployer is pragmatic application deployment automation,
+without mercy. Much like Capistrano, but with 1/10th the
+complexity. Vlad integrates seamlessly with Rake, and uses familiar
+and standard tools like ssh and rsync. This is a fork of vlad maintained by
+Aaron Suggs. See PATCHES.txt for more info""
+}
+    gemspec.homepage = "http://github.com/ktheory/vlad"
+    gemspec.authors = ['Ryan Davis','Eric Hodel', 'Wilson Bilkovich', 'Aaron Suggs']
+    gemspec.email = ['ryand-ruby@zenspider.com', 'drbrain@segment7.net', 'wilson@supremetyrant.com', 'aaron@ktheory.com']
+    gemspec.add_dependency 'rake',  '~> 0.8.0'
+    gemspec.add_dependency 'open4', '~> 0.9.0'
+  end
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler not available. Install it with: sudo gem install jeweler"
 end
 
 desc "quick little hack to see what the state of the nation looks like"
