@@ -1,0 +1,27 @@
+This file outlines how ktheory-vlad (http://github.com/ktheory/vlad) differs
+from seattlerb's vlad (http://hitsquad.rubyforge.org/vlad/) and vlad-git
+(http://github.com/jbarnette/vlad-git)
+
+Changes from vlad-2.0 (http://hitsquad.rubyforge.org/vlad/):
+
+* Include modules from vlad-1.4 that were removed in vlad-2.0.
+  In 2.0, seattlerb chose to remove modules for common web servers and SCMs
+  except apache, passenger, and subversion (vlad's defaults). The removed
+  modules must be installed seperately, but are difficult to find. See commit
+  a2b92b4ffdfb8748898289de96d8b84860122468
+
+* Fix vlad:start_app passenger task when run without a full deployment.
+  See http://rubyforge.org/tracker/index.php?func=detail&aid=26003&group_id=4213&atid=16258
+  and commit 82dccf88de1561369ef5089151a58345a236e2c9
+
+* Added the ability to prefix output with hostnames (or a custom string).
+  See http://rubyforge.org/tracker/index.php?func=detail&aid=20768&group_id=4213&atid=16261
+  and commit 7b6522df086f5e1c28d585483b9c74eb1fa660e5
+
+Changes from vlad-git-2.1.0 (http://github.com/jbarnette/vlad-git):
+
+* Use fast checkouts when possible insteading cloning the entire repo. (This
+  is an unreleased feature of vlad-git) See http://github.com/jbarnette/vlad-git/commit/749ab8f9bb7c24baafdd513a5b9d8246fc0a7f5a
+
+* Fixes submodule initializes for git version < 1.5.6. See commit
+  44ff0ef446560d4a8e193877d2b9f1c46c583b21
