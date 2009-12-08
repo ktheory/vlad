@@ -18,9 +18,14 @@ Changes from vlad-2.0 (http://hitsquad.rubyforge.org/vlad/):
   See http://rubyforge.org/tracker/index.php?func=detail&aid=20768&group_id=4213&atid=16261
   and commit 7b6522df086f5e1c28d585483b9c74eb1fa660e5
 
+* Make vlad:symlink seperate from the vlad:update task. vlad:update now calls
+  vlad:update_code and vlad:symlink. This allows one to inject tasks between
+  "update_code" and "symlink" (e.g. a task to build assets). See
+  commit 3d5ea6275ddac3b742140b27a486a7f3ab5356ef.
+
 Changes from vlad-git-2.1.0 (http://github.com/jbarnette/vlad-git):
 
-* Use fast checkouts when possible insteading cloning the entire repo. (This
+* Use fast checkouts when possible insteading of cloning the entire repo. (This
   is an unreleased feature of vlad-git) See http://github.com/jbarnette/vlad-git/commit/749ab8f9bb7c24baafdd513a5b9d8246fc0a7f5a
 
 * Fixes submodule initializes for git version < 1.5.6. See commit
