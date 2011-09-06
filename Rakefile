@@ -1,6 +1,9 @@
 # -*- ruby -*-
 
-require 'rubygems'
+require 'rake/testtask'
+Rake::TestTask.new
+task :default => :test
+
 desc "quick little hack to see what the state of the nation looks like"
 task :debug do
   $: << 'lib'
