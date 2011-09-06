@@ -21,8 +21,7 @@ Impale your application on the heartless spike of the Deployer.}
   s.summary = %q{Vlad the Deployer is pragmatic application deployment automation, without mercy}
   s.test_files = [%q{test/test_vlad.rb}, %q{test/test_vlad_subversion.rb}]
 
-  s.add_runtime_dependency(%q<rake>, ["~> 0.8"])
-  s.add_runtime_dependency(%q<rake-remote_task>, ["~> 2.0"])
-  s.add_runtime_dependency(%q<open4>, ["~> 0.9.0"])
-  s.add_development_dependency(%q<hoe>, ["~> 2.12"])
+  s.add_dependency "rake", "~> 0.8"
+  s.add_dependency "rake-remote_task", "~> 2.0"
+  s.add_dependency "open4", "~> 0.9.0"
 end
