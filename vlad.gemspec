@@ -23,5 +23,5 @@ Impale your application on the heartless spike of the Deployer.}
 
   s.add_dependency "rake", "~> 0.8"
   s.add_dependency "rake-remote_task", "~> 2.0"
-  s.add_dependency "open4", "~> 0.9.0"
+  s.add_dependency "open4", "> 0.9.0"
 end
